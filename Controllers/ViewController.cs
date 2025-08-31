@@ -3,11 +3,11 @@ using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Npgsql;
 using System.Data;
 using System.Linq;
-using 掲示板Webアプリ.Data;
-using 掲示板Webアプリ.Models;
+using BBSWebApp.Data;
+using BBSWebApp.Models;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
-namespace 掲示板Webアプリ.Controllers
+namespace BBSWebApp.Controllers
 {
     public class ViewController:Controller
     {

@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using 掲示板Webアプリ.Models;
+using BBSWebApp.Models;
 
-namespace 掲示板Webアプリ.Data
+namespace BBSWebApp.Data
 {
     public class AppDbContext:DbContext
     {

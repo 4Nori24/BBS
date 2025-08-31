@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using 掲示板Webアプリ.Models;
+using BBSWebApp.Models;
 
-namespace 掲示板Webアプリ.Controllers
+namespace BBSWebApp.Controllers
 {
     public class CommentViewController : Controller
     {

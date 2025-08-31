@@ -4,7 +4,7 @@ using System.Configuration;
 using Npgsql;
 using System.ComponentModel;
 
-namespace 掲示板Webアプリ.Controllers
+namespace BBSWebApp.Controllers
 {
     public class LoginController:Controller
     {

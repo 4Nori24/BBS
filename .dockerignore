@@ -1,0 +1,7 @@
+BSWebApp.sln
+csproj
+bin/
+obj/
+.vs/
+*.md
+*.log

@@ -1,4 +1,4 @@
-namespace 掲示板Webアプリ.Models
+namespace BBSWebApp.Models
 {
     public class ErrorViewModel
     {

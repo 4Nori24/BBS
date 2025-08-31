@@ -2,9 +2,9 @@ using Microsoft.AspNetCore.Mvc;
 using Npgsql;
 using System.Data;
 using System.Diagnostics;
-using 掲示板Webアプリ.Models;
+using BBSWebApp.Models;
 
-namespace 掲示板Webアプリ.Controllers
+namespace BBSWebApp.Controllers
 {
     public class HomeController : Controller
     {

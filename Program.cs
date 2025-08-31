@@ -1,9 +1,9 @@
-using Microsoft.EntityFrameworkCore;
-using Œf¦”ÂWebƒAƒvƒŠ.Data;
+ï»¿using Microsoft.EntityFrameworkCore;
+using BBSWebApp.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// ƒT[ƒrƒX“o˜^
+// ã‚µãƒ¼ãƒ“ã‚¹ç™»éŒ²
 builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
@@ -16,7 +16,7 @@ builder.Services.AddSession(options =>
 
 var app = builder.Build();
 
-// ƒ~ƒhƒ‹ƒEƒFƒA\¬i‡”Ô‚ªd—vj
+// ãƒŸãƒ‰ãƒ«ã‚¦ã‚§ã‚¢æ§‹æˆï¼ˆé †ç•ªãŒé‡è¦ï¼‰
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
@@ -24,7 +24,7 @@ if (!app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-app.UseStaticFiles(); // © ‚±‚ê‚ªJS/CSS‚Ì”zM‚É•K—v
+app.UseStaticFiles(); // â† ã“ã‚ŒãŒJS/CSSã®é…ä¿¡ã«å¿…è¦
 app.UseRouting();
 app.UseSession();
 app.UseAuthorization();
@@ -33,4 +33,4 @@ app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
-app.Run(); // © ÅŒã‚É1‰ñ‚¾‚¯
+app.Run(); // â† æœ€å¾Œã«1å›ã ã‘

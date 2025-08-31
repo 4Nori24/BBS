@@ -1,11 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Npgsql;
 using System.Data;
-using 掲示板Webアプリ.Models;
+using BBSWebApp.Models;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
-namespace 掲示板Webアプリ.Controllers
+namespace BBSWebApp.Controllers
 {
     public class NewPostController:Controller
     {
