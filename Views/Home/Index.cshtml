@@ -1,0 +1,106 @@
+﻿@model List<掲示板Webアプリ.Models.SentenceClass>
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<link rel="stylesheet" href="~/css/site.css" />
+
+<div class="d-flex justify-content-center align-items-center vh-100 px-3">
+    <form method="post" asp-controller="Home" asp-action="Index"
+          class="p-4 border rounded shadow-sm bg-light w-100"
+          style="max-width: 1140px;">
+
+        <!-- 検索条件 -->
+        <div class="mb-3">
+            <label class="form-label">検索条件</label>
+            <div class="row g-2">
+                <div class="col-md-6">
+                    <label class="form-label">タイトル</label>
+                    <input type="text" name="txtTitle" class="form-control" />
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label">カテゴリー</label>
+                    <input type="text" name="txtCategory" class="form-control" />
+                </div>
+            </div>
+        </div>
+
+        <!-- 投稿日 -->
+        <div class="mb-3">
+            <label class="form-label">投稿日</label>
+            <div class="row g-2">
+                <div class="col">
+                    <input type="text" name="txtDateFrom" class="form-control" />
+                </div>
+                <div class="col-auto">
+                    <button type="button" class="btn btn-outline-secondary">…</button>
+                </div>
+                <div class="col-auto">
+                    <label class="form-label">～</label>
+                </div>
+                <div class="col">
+                    <input type="text" name="txtDateTo" class="form-control" />
+                </div>
+                <div class="col-auto">
+                    <button type="button" class="btn btn-outline-secondary">…</button>
+                </div>
+                <div class="col-auto">
+                    <button type="submit" name="action" value="search" class="btn btn-primary">検索</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 投稿一覧 -->
+        @if (Model != null && Model.Count > 0)
+        {
+            <div class="table-responsive mb-3" style="max-height: 400px; overflow-y: auto;">
+                <table id="postTable" class="table table-bordered table-hover">
+                    <thead class="table-light">
+                        <tr>
+                            <th>投稿No</th>
+                            <th>タイトル</th>
+                            <th>カテゴリー</th>
+                            <th>投稿者</th>
+                            <th>投稿日</th>
+                            <th>内容</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr onclick="selectRow(this)">
+                                <td>@item.PostNo</td>
+                                <td>@item.Title</td>
+                                <td>@item.Category</td>
+                                <td>@item.Contributor</td>
+                                <td>@item.Date.ToString("yyyy-MM-dd")</td>
+                                <td>@item.Content</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        }
+        else
+        {
+            <p>該当する投稿はありません。</p>
+        }
+
+        <!-- Hidden fields -->
+        <input type="hidden" id="selectedPostNo" name="selectedPostNo" />
+        <input type="hidden" id="selectedTitle" name="selectedTitle" />
+        <input type="hidden" id="selectedCategory" name="selectedCategory" />
+        <input type="hidden" id="selectedContributor" name="selectedContributor" />
+        <input type="hidden" id="selectedDate" name="selectedDate" />
+        <input type="hidden" id="selectedContent" name="selectedContent" />
+
+        <!-- 操作ボタン -->
+        <div class="d-flex justify-content-between mt-3">
+            <button type="submit" name="action" value="new" class="btn btn-success">新規投稿</button>
+            <button type="submit" name="action" value="view" class="btn btn-info">投稿閲覧</button>
+            <button type="submit" name="action" value="commentview" class="btn btn-warning">コメント閲覧</button>
+        </div>
+    </form>
+</div>
+
+<script src="/js/Home.js" defer></script>
