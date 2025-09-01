@@ -35,3 +35,26 @@ tr:hover {
     margin: auto;
     padding: 0 15px;
 }
+
+.post-card {
+    border: 1px solid #ccc;
+    padding: 1rem;
+    border-radius: 6px;
+    background-color: #fff;
+    transition: background-color 0.3s ease;
+    cursor: pointer;
+}
+
+.post-card.selected {
+    background-color: #e0f7fa !important; /* 水色系の選択色 */
+    border-color: #00acc1 !important;
+}
+
+.post-meta {
+    font-weight: bold;
+}
+
+
+.post-content {
+    white-space: pre-line; /* 改行を反映 */
+}

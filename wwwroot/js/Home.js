@@ -1,29 +1,26 @@
 ﻿console.log("Home.js loaded");
 
 document.addEventListener("DOMContentLoaded", function () {
-    const rows = document.querySelectorAll("#postTable tbody tr");
+    const cards = document.querySelectorAll(".post-card");
 
-    rows.forEach(row => {
-        // PC対応
-        row.addEventListener("click", () => handleRowSelect(row));
-        // スマホ対応
-        row.addEventListener("touchstart", () => handleRowSelect(row));
+    cards.forEach(card => {
+        card.addEventListener("click", () => handleCardSelect(card));
+        card.addEventListener("touchstart", () => handleCardSelect(card));
     });
 
-    function handleRowSelect(row) {
-        rows.forEach(r => r.classList.remove("selected"));
-        row.classList.add("selected");
-        selectRow(row);
+    function handleCardSelect(card) {
+        cards.forEach(c => c.classList.remove("selected"));
+        card.classList.add("selected");
+        selectCard(card);
     }
 
-    function selectRow(row) {
-        const cells = row.getElementsByTagName("td");
-
-        document.getElementById("selectedPostNo").value = cells[0].textContent.trim();
-        document.getElementById("selectedTitle").value = cells[1].textContent.trim();
-        document.getElementById("selectedCategory").value = cells[2].textContent.trim();
-        document.getElementById("selectedContributor").value = cells[3].textContent.trim();
-        document.getElementById("selectedDate").value = cells[4].textContent.trim();
-        document.getElementById("selectedContent").value = cells[5].textContent.trim();
+    function selectCard(card) {
+        // Razor側で data-* 属性を埋め込んでおくと安全
+        document.getElementById("selectedPostNo").value = card.dataset.postno || "";
+        document.getElementById("selectedTitle").value = card.dataset.title || "";
+        document.getElementById("selectedCategory").value = card.dataset.category || "";
+        document.getElementById("selectedContributor").value = card.dataset.contributor || "";
+        document.getElementById("selectedDate").value = card.dataset.date || "";
+        document.getElementById("selectedContent").value = card.dataset.content || "";
     }
 });

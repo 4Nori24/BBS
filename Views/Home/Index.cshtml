@@ -2,6 +2,10 @@
 @{
     ViewData["Title"] = "Home Page";
 }
+@{
+    var selectedId = ViewBag.SelectedId as int?; // 選択された投稿ID
+}
+
 
 <link rel="stylesheet" href="~/css/site.css" />
 
@@ -53,7 +57,7 @@
         <!-- 投稿一覧 -->
         @if (Model != null && Model.Count > 0)
         {
-            <div class="table-responsive mb-3" style="max-height: 400px; overflow-y: auto;">
+            @* <div class="table-responsive mb-3" style="max-height: 400px; overflow-y: auto;">
                 <table id="postTable" class="table table-bordered table-hover">
                     <thead class="table-light">
                         <tr>
@@ -79,7 +83,26 @@
                         }
                     </tbody>
                 </table>
+            </div> *@
+
+            <div class="post-list" style="max-height: 400px; overflow-y: auto;">
+                @foreach (var item in Model)
+                {
+                    var isSelected = selectedId.HasValue && item.PostNo == selectedId.Value;
+                    var cardClass = isSelected ? "post-card selected mb-3" : "post-card mb-3";
+
+
+                    <div class="@cardClass">
+                        <div class=" post-meta text-muted small">
+                            @item.Contributor @item.Date @item.Category
+                        </div>
+                        <div class="post-content mt-2">
+                            <p class="mb-0">@item.Content</p>
+                        </div>
+                    </div>
+                }
             </div>
+
         }
         else
         {
@@ -97,8 +120,8 @@
         <!-- 操作ボタン -->
         <div class="d-flex justify-content-between mt-3">
             <button type="submit" name="action" value="new" class="btn btn-success">新規投稿</button>
-            <button type="submit" name="action" value="view" class="btn btn-info">投稿閲覧</button>
-            <button type="submit" name="action" value="commentview" class="btn btn-warning">コメント閲覧</button>
+            @* <button type="submit" name="action" value="view" class="btn btn-info">投稿閲覧</button> *@
+            @* <button type="submit" name="action" value="commentview" class="btn btn-warning">コメント閲覧</button> *@
         </div>
     </form>
 </div>
