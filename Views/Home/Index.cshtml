@@ -6,15 +6,56 @@
     var selectedId = ViewBag.SelectedId as int?; // 選択された投稿ID
 }
 
-
 <link rel="stylesheet" href="~/css/site.css" />
 
-<div class="d-flex justify-content-center align-items-center vh-100 px-3">
+<button id="btn-search">🔎</button>
+<div id="search-condition">
+    <!-- 検索条件 -->
+    <div class="mb-3">
+        <div class="row g-2">
+            <div class="col-md-6">
+                <label class="form-label">タイトル</label>
+                <input type="text" name="txtTitle" class="form-control" />
+            </div>
+            <div class="col-md-6">
+                <label class="form-label">カテゴリー</label>
+                <input type="text" name="txtCategory" class="form-control" />
+            </div>
+        </div>
+    </div>
+    
+    <!-- 投稿日 -->
+    <div class="mb-3">
+        <label class="form-label">投稿日</label>
+        <div class="row g-2">
+            <div class="col">
+                <input type="text" name="txtDateFrom" class="form-control" />
+            </div>
+            <div class="col-auto">
+                <button type="button" class="btn btn-outline-secondary">…</button>
+            </div>
+            <div class="col-auto">
+                <label class="form-label">～</label>
+            </div>
+            <div class="col">
+                <input type="text" name="txtDateTo" class="form-control" />
+            </div>
+            <div class="col-auto">
+                <button type="button" class="btn btn-outline-secondary">…</button>
+            </div>
+            <div class="col-auto">
+                <button type="submit" name="action" value="search" class="btn btn-primary">検索</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="d-flex justify-content-center align-items-center">
     <form method="post" asp-controller="Home" asp-action="Index"
           class="p-4 border rounded shadow-sm bg-light w-100"
           style="max-width: 1140px;">
 
-        <!-- 検索条件 -->
+        @* <!-- 検索条件 -->
         <div class="mb-3">
             <label class="form-label">検索条件</label>
             <div class="row g-2">
@@ -52,7 +93,7 @@
                     <button type="submit" name="action" value="search" class="btn btn-primary">検索</button>
                 </div>
             </div>
-        </div>
+        </div> *@
 
         <!-- 投稿一覧 -->
         @if (Model != null && Model.Count > 0)
@@ -85,7 +126,7 @@
                 </table>
             </div> *@
 
-            <div class="post-list" style="max-height: 400px; overflow-y: auto;">
+            <div class="post-list flex-grow-1 overflow-auto;">
                 @foreach (var item in Model)
                 {
                     var isSelected = selectedId.HasValue && item.PostNo == selectedId.Value;

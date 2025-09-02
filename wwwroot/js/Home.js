@@ -23,4 +23,19 @@ document.addEventListener("DOMContentLoaded", function () {
         document.getElementById("selectedDate").value = card.dataset.date || "";
         document.getElementById("selectedContent").value = card.dataset.content || "";
     }
+
+    const btnSearch = document.getElementById("btn-search");
+    const searchCondition = document.getElementById("search-condition");
+
+    console.log("btnSearch:", btnSearch);
+    console.log("searchCondition:", searchCondition);
+
+
+
+    if (btnSearch && searchCondition) {
+        btnSearch.addEventListener("click", function () {
+            searchCondition.classList.toggle("show");
+        });
+    }
 });
+
