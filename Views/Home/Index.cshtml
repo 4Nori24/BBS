@@ -1,170 +1,81 @@
 ﻿@model List<BBSWebApp.Models.SentenceClass>
 @{
     ViewData["Title"] = "Home Page";
-}
-@{
-    var selectedId = ViewBag.SelectedId as int?; // 選択された投稿ID
+    var selectedId = ViewBag.SelectedId as int?;
 }
 
 <link rel="stylesheet" href="~/css/site.css" />
 
-<button id="btn-search">🔎</button>
-<div id="search-condition">
-    <!-- 検索条件 -->
-    <div class="mb-3">
-        <div class="row g-2">
-            <div class="col-md-6">
-                <label class="form-label">タイトル</label>
-                <input type="text" name="txtTitle" class="form-control" />
-            </div>
-            <div class="col-md-6">
-                <label class="form-label">カテゴリー</label>
-                <input type="text" name="txtCategory" class="form-control" />
-            </div>
+<!-- 検索条件 -->
+<div id="search-condition" class="mb-4">
+    <div class="row g-2 mb-3">
+        <div class="col-md-6">
+            <label class="form-label">タイトル</label>
+            <input type="text" name="txtTitle" class="form-control" />
+        </div>
+        <div class="col-md-6">
+            <label class="form-label">カテゴリー</label>
+            <input type="text" name="txtCategory" class="form-control" />
         </div>
     </div>
-    
-    <!-- 投稿日 -->
-    <div class="mb-3">
-        <label class="form-label">投稿日</label>
-        <div class="row g-2">
-            <div class="col">
-                <input type="text" name="txtDateFrom" class="form-control" />
-            </div>
-            <div class="col-auto">
-                <button type="button" class="btn btn-outline-secondary">…</button>
-            </div>
-            <div class="col-auto">
-                <label class="form-label">～</label>
-            </div>
-            <div class="col">
-                <input type="text" name="txtDateTo" class="form-control" />
-            </div>
-            <div class="col-auto">
-                <button type="button" class="btn btn-outline-secondary">…</button>
-            </div>
-            <div class="col-auto">
-                <button type="submit" name="action" value="search" class="btn btn-primary">検索</button>
-            </div>
+    <div class="row g-2 align-items-end">
+        <div class="col">
+            <label class="form-label">投稿日</label>
+            <input type="text" name="txtDateFrom" class="form-control" />
+        </div>
+        <div class="col-auto">～</div>
+        <div class="col">
+            <input type="text" name="txtDateTo" class="form-control" />
+        </div>
+        <div class="col-auto">
+            <button type="submit" name="action" value="search" class="btn btn-primary">検索</button>
         </div>
     </div>
 </div>
 
-<div class="d-flex justify-content-center align-items-center">
-    <form method="post" asp-controller="Home" asp-action="Index"
-          class="p-4 border rounded shadow-sm bg-light w-100"
-          style="max-width: 1140px;">
-
-        @* <!-- 検索条件 -->
-        <div class="mb-3">
-            <label class="form-label">検索条件</label>
-            <div class="row g-2">
-                <div class="col-md-6">
-                    <label class="form-label">タイトル</label>
-                    <input type="text" name="txtTitle" class="form-control" />
-                </div>
-                <div class="col-md-6">
-                    <label class="form-label">カテゴリー</label>
-                    <input type="text" name="txtCategory" class="form-control" />
-                </div>
-            </div>
-        </div>
-
-        <!-- 投稿日 -->
-        <div class="mb-3">
-            <label class="form-label">投稿日</label>
-            <div class="row g-2">
-                <div class="col">
-                    <input type="text" name="txtDateFrom" class="form-control" />
-                </div>
-                <div class="col-auto">
-                    <button type="button" class="btn btn-outline-secondary">…</button>
-                </div>
-                <div class="col-auto">
-                    <label class="form-label">～</label>
-                </div>
-                <div class="col">
-                    <input type="text" name="txtDateTo" class="form-control" />
-                </div>
-                <div class="col-auto">
-                    <button type="button" class="btn btn-outline-secondary">…</button>
-                </div>
-                <div class="col-auto">
-                    <button type="submit" name="action" value="search" class="btn btn-primary">検索</button>
-                </div>
-            </div>
-        </div> *@
-
-        <!-- 投稿一覧 -->
-        @if (Model != null && Model.Count > 0)
+<!-- 投稿一覧 -->
+<div class="d-flex justify-content-center">
+    <form method="post" asp-controller="Home" asp-action="Index" class="p-4 border rounded shadow-sm bg-light w-100" style="max-width: 1140px;">
+        @if (Model?.Count > 0)
         {
-            @* <div class="table-responsive mb-3" style="max-height: 400px; overflow-y: auto;">
-                <table id="postTable" class="table table-bordered table-hover">
-                    <thead class="table-light">
-                        <tr>
-                            <th>投稿No</th>
-                            <th>タイトル</th>
-                            <th>カテゴリー</th>
-                            <th>投稿者</th>
-                            <th>投稿日</th>
-                            <th>内容</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach (var item in Model)
-                        {
-                            <tr onclick="selectRow(this)">
-                                <td>@item.PostNo</td>
-                                <td>@item.Title</td>
-                                <td>@item.Category</td>
-                                <td>@item.Contributor</td>
-                                <td>@item.Date.ToString("yyyy-MM-dd")</td>
-                                <td>@item.Content</td>
-                            </tr>
-                        }
-                    </tbody>
-                </table>
-            </div> *@
-
-            <div class="post-list flex-grow-1 overflow-auto;">
+            <div class="post-list overflow-auto">
                 @foreach (var item in Model)
                 {
                     var isSelected = selectedId.HasValue && item.PostNo == selectedId.Value;
                     var cardClass = isSelected ? "post-card selected mb-3" : "post-card mb-3";
-
+                    var replyId = $"replyCard_{item.PostNo}";
 
                     <div class="@cardClass">
-                        <div class=" post-meta text-muted small">
-                            @item.Contributor @item.Date @item.Category
-                        </div>
-                        <div class="post-content mt-2">
-                            <p class="mb-0">@item.Content</p>
-                        </div>
+                        <div class="post-meta text-muted small">@item.Contributor @item.Date @item.Category</div>
+                        <div class="post-content mt-2"><p class="mb-0">@item.Content</p></div>
+                        <button type="submit" name="action" value="commentView" class="btn btn-primary" onclick="setSelectedPostNo(@item.PostNo)">💬</button>
+                    </div>
+
+                    <div id="@replyId" class="replycardClass mt-2">
+                        <textarea id="txtReply" name="txtReply" class="form-control mb-2"></textarea>
+                        <button type="submit" name="action" value="reply" class="btn btn-secondary">投稿</button>
                     </div>
                 }
             </div>
-
         }
         else
         {
             <p>該当する投稿はありません。</p>
         }
 
-        <!-- Hidden fields -->
+        <!-- Hidden field for 選択された投稿番号 -->
         <input type="hidden" id="selectedPostNo" name="selectedPostNo" />
-        <input type="hidden" id="selectedTitle" name="selectedTitle" />
-        <input type="hidden" id="selectedCategory" name="selectedCategory" />
-        <input type="hidden" id="selectedContributor" name="selectedContributor" />
-        <input type="hidden" id="selectedDate" name="selectedDate" />
-        <input type="hidden" id="selectedContent" name="selectedContent" />
 
         <!-- 操作ボタン -->
         <div class="d-flex justify-content-between mt-3">
-            <button type="submit" name="action" value="new" class="fixed_btn">+</button>
-            @* <button type="submit" name="action" value="view" class="btn btn-info">投稿閲覧</button> *@
-            @* <button type="submit" name="action" value="commentview" class="btn btn-warning">コメント閲覧</button> *@
+            <button type="submit" name="action" value="new" class="fixed_btn">＋</button>
+            <button type="button" class="home_btn">🏠</button>
         </div>
     </form>
 </div>
 
-<script src="/js/Home.js" defer></script>
+<script>
+    function setSelectedPostNo(postNo) {
+        document.getElementById("selectedPostNo").value = postNo;
+    }
+</script>

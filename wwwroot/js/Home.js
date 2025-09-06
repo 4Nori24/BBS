@@ -1,5 +1,10 @@
 ﻿console.log("Home.js loaded");
 
+function toggleReplyCard(id) {
+    const reply = document.getElementById(id);
+    reply.classList.toggle("show");
+}
+
 document.addEventListener("DOMContentLoaded", function () {
     const cards = document.querySelectorAll(".post-card");
 

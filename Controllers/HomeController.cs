@@ -1,8 +1,9 @@
+using BBSWebApp.Models;
 using Microsoft.AspNetCore.Mvc;
 using Npgsql;
+using System;
 using System.Data;
 using System.Diagnostics;
-using BBSWebApp.Models;
 
 namespace BBSWebApp.Controllers
 {
@@ -20,7 +21,7 @@ namespace BBSWebApp.Controllers
         }
 
         [HttpPost]
-        public IActionResult Index(string txtTitle, string txtCategory, string txtDateFrom, string txtDateTo,int selectedPostNo, string selectedTitle, string selectedCategory, string selectedContributor,string selectedDate, string selectedContent, string action)
+        public IActionResult Index(string txtTitle, string txtCategory, string txtReply, string txtDateFrom, string txtDateTo,int selectedPostNo, string selectedTitle, string selectedCategory, string selectedContributor,string selectedDate, string selectedContent, string action)
         {
             if (action == "new")
             {
@@ -38,9 +39,13 @@ namespace BBSWebApp.Controllers
 
                 return RedirectToAction("Index", "View");
             }
-            else if(action == "commentview")
+            else if(action == "commentView")
             {
-                return RedirectToAction("Index", "CommentView");
+                return RedirectToAction("Index", "CommentView" ,new { postNo = selectedPostNo });
+            }
+            else if(action == "reply")
+            {
+                InsertReply(selectedPostNo, txtReply);
             }
 
             GetSelectData(txtTitle, txtCategory, txtDateFrom, txtDateTo);
@@ -112,5 +117,58 @@ namespace BBSWebApp.Controllers
             return sentenceclass;
         }
 
+        public void InsertReply(int postNo, string txtreply)
+        {
+            var username = HttpContext.Session.GetString("Username");
+            var reply = txtreply;
+            var postNum = postNo;
+            var rowNum = 0;
+
+            var configManager = new Microsoft.Extensions.Configuration.ConfigurationManager();
+            configManager.AddJsonFile("appsettings.json");
+
+            var connectionString = configManager.GetConnectionString("DbConnection");
+
+            using (var connection = new NpgsqlConnection(connectionString))
+            {
+                try
+                {
+                    connection.Open();
+
+                    //行番号取得
+                    var table = new DataTable();
+                    using (var command = new NpgsqlCommand("SELECT COUNT(*) FROM \"D_Reply\" WHERE 投稿番号 = @投稿No;", connection))
+                    {
+                        command.CommandType = CommandType.Text;
+                        command.Parameters.AddWithValue("@投稿No", postNum);
+
+                        var adapter = new NpgsqlDataAdapter(command);
+                        adapter.Fill(table);
+                        rowNum = int.Parse(table.Rows[0][0].ToString()) + 1;
+                    }
+
+
+                    using (var command = new NpgsqlCommand(@"INSERT INTO ""D_Reply""(""投稿番号"", ""行番号"", ""投稿者"", ""投稿日"", ""内容""
+                        ) VALUES (@投稿No, @行番号, @投稿者, @投稿日, @内容);", connection))
+                    {
+                        command.Parameters.AddWithValue("@投稿No", postNum);
+                        command.Parameters.AddWithValue("@行番号", rowNum);
+                        command.Parameters.AddWithValue("@投稿者", username);
+                        command.Parameters.AddWithValue("@投稿日", DateTime.Now);
+                        command.Parameters.AddWithValue("@内容", reply);
+
+                        command.ExecuteNonQuery();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    
+                }
+                finally
+                {
+                    connection.Close();
+                }
+            }
+        }
     }
 }

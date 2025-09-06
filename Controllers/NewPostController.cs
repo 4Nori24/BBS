@@ -7,7 +7,7 @@ using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace BBSWebApp.Controllers
 {
-    public class NewPostController:Controller
+    public class NewPostController : Controller
     {
         [HttpGet]
         public IActionResult Index()
@@ -16,7 +16,7 @@ namespace BBSWebApp.Controllers
         }
 
         [HttpPost]
-        public IActionResult Index(IFormCollection form,string action)
+        public IActionResult Index(IFormCollection form, string action)
         {
             var username = HttpContext.Session.GetString("Username");
             var contributor = username;
@@ -59,7 +59,7 @@ namespace BBSWebApp.Controllers
                     }
                     catch (Exception ex)
                     {
-                        
+
                     }
                     finally
                     {

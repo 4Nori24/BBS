@@ -85,12 +85,15 @@ namespace BBSWebApp.Controllers
                         adapter.Fill(table);
                         var result = table.Rows[0][0]?.ToString();
 
+                        connection.Close();
                         return result != "0";
                     }
                 }
                 catch
                 {
+                    connection.Close();
                     return false;
+
                 }
             }
         }
@@ -131,6 +134,10 @@ namespace BBSWebApp.Controllers
                 catch (Exception ex)
                 {
 
+                }
+                finally
+                {
+                    connection.Close() ;
                 }
             }
         }
