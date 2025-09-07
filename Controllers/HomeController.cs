@@ -4,20 +4,30 @@ using Npgsql;
 using System;
 using System.Data;
 using System.Diagnostics;
+using static System.Collections.Specialized.BitVector32;
 
 namespace BBSWebApp.Controllers
 {
+
     public class HomeController : Controller
     {
         private List<SentenceClass> sentenceclass = new List<SentenceClass>();
 
         [HttpGet]
-        public IActionResult Index()
+        public IActionResult Index(string txtTitle, string txtCategory, string txtReply, string txtDateFrom, string txtDateTo, string submitAction)
         {
-            GetSelectData("", "", "", "");
-            var dataList = sentenceclass.ToList();
-            return View(dataList);
-
+            if (submitAction == "search")
+            {
+                GetSelectData(txtTitle, txtCategory, txtDateFrom, txtDateTo);
+                var selectList = sentenceclass.ToList();
+                return View(selectList);
+            }
+            else
+            {
+                GetSelectData("", "", "", "");
+                var dataList = sentenceclass.ToList();
+                return View(dataList);
+            }
         }
 
         [HttpPost]
@@ -39,11 +49,11 @@ namespace BBSWebApp.Controllers
 
                 return RedirectToAction("Index", "View");
             }
-            else if(action == "commentView")
+            else if (action == "commentView")
             {
-                return RedirectToAction("Index", "CommentView" ,new { postNo = selectedPostNo });
+                return RedirectToAction("Index", "CommentView", new { postNo = selectedPostNo });
             }
-            else if(action == "reply")
+            else if (action == "reply")
             {
                 InsertReply(selectedPostNo, txtReply);
             }

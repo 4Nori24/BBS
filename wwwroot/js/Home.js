@@ -29,7 +29,7 @@ document.addEventListener("DOMContentLoaded", function () {
         document.getElementById("selectedContent").value = card.dataset.content || "";
     }
 
-    const btnSearch = document.getElementById("btn-search");
+    const btnSearch = document.getElementById("btnSearch");
     const searchCondition = document.getElementById("search-condition");
 
     console.log("btnSearch:", btnSearch);

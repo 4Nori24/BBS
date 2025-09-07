@@ -6,8 +6,13 @@
 
 <link rel="stylesheet" href="~/css/site.css" />
 
+<button type="button" id="btnSearch" class="btn btn-outline-secondary mb-3">
+    🔍 検索
+</button>
+
 <!-- 検索条件 -->
-<div id="search-condition" class="mb-4">
+<form method="get" asp-controller="Home" asp-action="Index" id="search-condition" class="mb-4">
+
     <div class="row g-2 mb-3">
         <div class="col-md-6">
             <label class="form-label">タイトル</label>
@@ -15,7 +20,13 @@
         </div>
         <div class="col-md-6">
             <label class="form-label">カテゴリー</label>
-            <input type="text" name="txtCategory" class="form-control" />
+            <select name="txtCategory" class="form-control">
+                <option value="">選択してください</option>
+                <option value="つぶやき">つぶやき</option>
+                <option value="悩み">悩み</option>
+                <option value="本のススメ">本のススメ</option>
+                <option value="その他">その他</option>
+            </select>
         </div>
     </div>
     <div class="row g-2 align-items-end">
@@ -28,10 +39,10 @@
             <input type="text" name="txtDateTo" class="form-control" />
         </div>
         <div class="col-auto">
-            <button type="submit" name="action" value="search" class="btn btn-primary">検索</button>
+            <button type="submit" name="submitAction" value="search" class="btn btn-primary">検索</button>
         </div>
     </div>
-</div>
+</form>
 
 <!-- 投稿一覧 -->
 <div class="d-flex justify-content-center">
@@ -46,9 +57,15 @@
                     var replyId = $"replyCard_{item.PostNo}";
 
                     <div class="@cardClass">
-                        <div class="post-meta text-muted small">@item.Contributor @item.Date @item.Category</div>
+                        <div class="post-meta text-muted small">
+                            <span class="meta-item">@item.Contributor</span>
+                            <span class="meta-item">@item.Date</span>
+                            <span class="meta-item">@item.Category</span>
+                            <span class="meta-item">@item.Title</span>
+                        </div>
+
                         <div class="post-content mt-2"><p class="mb-0">@item.Content</p></div>
-                        <button type="submit" name="action" value="commentView" class="btn btn-primary" onclick="setSelectedPostNo(@item.PostNo)">💬</button>
+                        <button type="submit" name="action" value="commentView" @* class="btn btn-primary" *@ onclick="setSelectedPostNo(@item.PostNo)">💬</button>
                     </div>
 
                     <div id="@replyId" class="replycardClass mt-2">
@@ -78,4 +95,16 @@
     function setSelectedPostNo(postNo) {
         document.getElementById("selectedPostNo").value = postNo;
     }
+
+    document.addEventListener("DOMContentLoaded", function () {
+        const btnSearch = document.getElementById("btnSearch");
+        const searchCondition = document.getElementById("search-condition");
+
+        if (btnSearch && searchCondition) {
+            btnSearch.addEventListener("click", function () {
+                searchCondition.classList.toggle("show");
+            });
+        }
+    });
+
 </script>

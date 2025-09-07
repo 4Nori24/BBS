@@ -121,7 +121,7 @@ tr:hover {
     display: block; /* ボタンで表示される状態 */
 }
 
-#btn-search {
+#btnSearch {
     position: fixed;
     top: 10px;
     right: 10px;
@@ -178,3 +178,8 @@ footer {
 /*#btnComment{
     position: absolute;
 }*/
+
+.meta-item {
+    margin-right: 1rem; /* 項目間に右余白を追加 */
+    display: inline-block;
+}

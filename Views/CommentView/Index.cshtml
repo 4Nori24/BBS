@@ -10,13 +10,13 @@
             <form method="post" asp-controller="CommentView" asp-action="Index" class="border rounded shadow-sm p-4 bg-light">
                 <h4 class="mb-4 text-center">コメント閲覧</h4>
 
-                <div class="mb-3">
+                @* <div class="mb-3">
                     <label for="txtTheme" class="form-label">テーマ</label>
                     <label name="txtTheme" id="txtTheme" class="form-control">@ViewBag.TitleText</label>
-                </div>
+                </div> *@
 
                 <div class="mb-3">
-                    <label for="txtContent" class="form-label">内容</label>
+                    <label for="txtContent" class="form-label">投稿内容</label>
                     <label name="txtContent" id="txtContent" class="form-control">@ViewBag.ContentText</label>
 
                 </div>
