@@ -1,24 +1,22 @@
-﻿@{
+﻿@model List<ReplyClass>
+@{
     ViewData["Title"] = "CommentView";
 }
-@model List<ReplyClass>
-
 
 <div class="container py-5">
     <div class="row justify-content-center">
         <div class="col-12 col-sm-10 col-md-8 col-lg-6">
-            <form method="post" asp-controller="CommentView" asp-action="Index" class="border rounded shadow-sm p-4 bg-light">
+            <form method="post" asp-controller="CommentView" asp-action="PostReplySimple" class="border rounded shadow-sm p-4 bg-light">
                 <h4 class="mb-4 text-center">コメント閲覧</h4>
 
-                @* <div class="mb-3">
+                <div class="mb-3">
                     <label for="txtTheme" class="form-label">テーマ</label>
-                    <label name="txtTheme" id="txtTheme" class="form-control">@ViewBag.TitleText</label>
-                </div> *@
+                    <label id="txtTheme" class="form-control">@ViewBag.TitleText</label>
+                </div>
 
                 <div class="mb-3">
                     <label for="txtContent" class="form-label">投稿内容</label>
-                    <label name="txtContent" id="txtContent" class="form-control">@ViewBag.ContentText</label>
-
+                    <label id="txtContent" class="form-control">@ViewBag.ContentText</label>
                 </div>
 
                 @if (Model != null && Model.Any())
@@ -35,40 +33,23 @@
                         }
                     </div>
                 }
+                else
+                {
+                    <p class="text-muted">まだコメントはありません。</p>
+                }
 
-                <input type="hidden" id="selectedPostNo" value="@Model.FirstOrDefault()?.PostNo" />
+
+                <input type="hidden" name="postNo" value="@ViewBag.PostNo" />
 
                 <div class="mb-3">
-                    <textarea name="txtReply" id="txtReply" rows="5" class="form-control"></textarea>
+                    <textarea name="reply" rows="5" class="form-control" placeholder="コメントを入力してください"></textarea>
                 </div>
 
                 <div class="d-flex flex-column flex-sm-row justify-content-between gap-2">
-                    <button type="button" class="btn btn-primary w-100" onclick="submitReply()">コメント投稿</button>
+                    <button type="submit" class="btn btn-primary w-100">コメント投稿</button>
                     <button type="submit" name="action" value="back" class="btn btn-secondary w-100">戻る</button>
                 </div>
             </form>
         </div>
     </div>
 </div>
-
-<script>
-    function submitReply() {
-        const reply = document.getElementById("txtReply").value;
-        const postNo = document.getElementById("selectedPostNo").value;
-
-                fetch('/CommentView/PostReplySimple', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ postNo, reply })
-    })
-    .then(res => res.json())
-    .then(data => {
-        if (data.success) {
-            window.location.href = data.redirectUrl; // ← ここでホームに遷移
-        } else {
-            alert("投稿失敗");
-        }
-    })
-
-    }
-</script>

@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Npgsql;
 using System;
 using System.Data;
+using System.Text.Json.Serialization;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace BBSWebApp.Controllers
@@ -20,6 +21,7 @@ namespace BBSWebApp.Controllers
 
             ViewBag.TitleText = title;
             ViewBag.ContentText = content;
+            ViewBag.PostNo = postNo;
             return View(dataList);
         }
 
@@ -36,23 +38,29 @@ namespace BBSWebApp.Controllers
             {
                 return RedirectToAction("Index", "Home");
             }
-            return View();
+            var dataList = GetComment(postNo).ToList();
+            return View(dataList);
         }
 
-        public class ReplyInputModel
-        {
-            public int PostNo { get; set; }
-            public string Reply { get; set; }
-        }
+        //public class ReplyInputModel
+        //{
+        //    [JsonPropertyName("postNo")]
+        //    public int PostNo { get; set; }
+
+        //    [JsonPropertyName("reply")]
+        //    public string Reply { get; set; }
+        //}
+
+
 
 
         [HttpPost]
-        public IActionResult PostReplySimple([FromBody] ReplyInputModel model)
+        public IActionResult PostReplySimple(int postNo, string reply)
         {
-            InsertReply(model.PostNo, model.Reply);
-            var dataList = GetComment(model.PostNo).ToList();
-            return Json(new { success = true, redirectUrl = Url.Action("Index", "Home") });
+            InsertReply(postNo, reply);
+            return RedirectToAction("Index", "Home");
         }
+
 
 
         protected List<ReplyClass> GetComment(int postnum)
